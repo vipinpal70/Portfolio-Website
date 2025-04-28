@@ -9,7 +9,7 @@ interface ContactFormData {
 
 export async function sendContactEmail(data: ContactFormData): Promise<void> {
   // Get email configuration from environment variables
-  const emailUser = process.env.EMAIL_USER || "vipinpal7060@gmail.com";
+  const emailUser = process.env.EMAIL_USER || "vipinpal.dev@gmail.com";
   const emailPass = process.env.EMAIL_PASS || "";
   const emailHost = process.env.EMAIL_HOST || "smtp.gmail.com";
   const emailPort = parseInt(process.env.EMAIL_PORT || "587");

@@ -36,11 +36,13 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      await apiRequest("POST", "/api/contact", formData);
+      const response = await apiRequest("POST", "/api/contact", formData);
+      console.log("Contact form submission response:", response);
       
+      // Show success message
       toast({
         title: "Message Sent!",
-        description: "Thank you for reaching out. I'll get back to you soon.",
+        description: "Thank you for reaching out. I've also sent you a confirmation email. I'll get back to you soon!",
         duration: 5000,
       });
       
@@ -48,6 +50,8 @@ const ContactSection = () => {
       setFormData(initialFormData);
     } catch (error) {
       console.error("Error sending message:", error);
+      
+      // Show error message
       toast({
         title: "Something went wrong",
         description: "There was an error sending your message. Please try again later.",
@@ -184,7 +188,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-medium text-dark-900 dark:text-white">Email</h4>
-                  <p className="text-dark-600 dark:text-dark-400">vipinpal7060@gmail.com</p>
+                  <p className="text-dark-600 dark:text-dark-400">vipinpal.dev@gmail.com</p>
                 </div>
               </div>
 
