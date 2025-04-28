@@ -33,7 +33,7 @@ const SocialLinks = () => {
         <span className="font-medium">Email</span>
       </a>
       <a
-        href="https://leetcode.com/"
+        href="https://leetcode.com/u/Vipin7060/"
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center space-x-2 text-dark-700 dark:text-dark-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors group"
