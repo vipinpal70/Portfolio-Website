@@ -45,8 +45,8 @@ const projects: Project[] = [
   {
     id: 4,
     title: "Real-Time Video Call App",
-    description: "Web application for real-time video communication using Socket.IO and WebRTC for peer-to-peer video streaming.",
-    imageSrc: "https://images.unsplash.com/photo-1639153445089-e2ca680a1045?q=80&w=800&auto=format&fit=crop",
+    description: "Web application for real-time video communication using Socket.IO and WebRTC for peer-to-peer video streaming. Features include screen sharing, chat functionality, and room creation.",
+    imageSrc: "https://images.unsplash.com/photo-1587614313085-5da51cebd8ac?q=80&w=800&auto=format&fit=crop",
     tags: ["JavaScript", "WebRTC", "Socket.IO", "Express.js"],
     demoLink: "#",
     githubLink: "https://github.com/vipinpal70",
@@ -112,57 +112,119 @@ const ProjectsSection = () => {
           {projects.map((project, index) => (
             <motion.div 
               key={project.id}
-              className="bg-white dark:bg-dark-800 rounded-xl shadow-lg border border-dark-200 dark:border-dark-700 overflow-hidden tilt-card"
+              className={`bg-white dark:bg-dark-800 rounded-xl shadow-lg border border-dark-200 dark:border-dark-700 overflow-hidden tilt-card ${project.id === 4 ? 'relative' : ''}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
+              whileHover={project.id === 4 ? { scale: 1.03, transition: { duration: 0.3 } } : {}}
             >
-              <div className="relative pb-[60%] overflow-hidden">
+              {project.id === 4 && (
+                <motion.div 
+                  className="absolute top-3 right-3 z-10 bg-primary-600 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-lg"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: 0.5,
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }}
+                >
+                  Featured
+                </motion.div>
+              )}
+              <div className="relative pb-[60%] overflow-hidden group">
                 <img 
                   src={project.imageSrc} 
                   alt={project.title} 
-                  className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className={`absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 
+                    ${project.id === 4 ? 'group-hover:scale-110 transform-gpu' : 'group-hover:scale-105'}`}
                 />
+                {project.id === 4 && (
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                  >
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <p className="text-sm font-medium">Real-time video calls with WebRTC technology</p>
+                    </div>
+                  </motion.div>
+                )}
               </div>
               <div className="p-6 tilt-card-content">
-                <h3 className="text-xl font-semibold text-dark-900 dark:text-white mb-2">{project.title}</h3>
+                <h3 className={`text-xl font-semibold text-dark-900 dark:text-white mb-2 
+                  ${project.id === 4 ? 'flex items-center' : ''}`}>
+                  {project.title}
+                  {project.id === 4 && (
+                    <motion.span 
+                      className="ml-2 inline-flex"
+                      initial={{ rotate: 0 }}
+                      whileInView={{ rotate: [0, -10, 10, -10, 0] }}
+                      transition={{ 
+                        duration: 1.5, 
+                        delay: 1,
+                        repeat: Infinity,
+                        repeatDelay: 5
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                      </svg>
+                    </motion.span>
+                  )}
+                </h3>
                 <p className="text-dark-600 dark:text-dark-400 mb-4">
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map((tag, i) => (
-                    <span key={i} className="px-2 py-1 text-xs rounded-md bg-primary-500/10 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400">
+                    <motion.span 
+                      key={i} 
+                      className={`px-2 py-1 text-xs rounded-md bg-primary-500/10 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400
+                        ${project.id === 4 ? 'hover:bg-primary-500 hover:text-white transition-colors duration-300' : ''}`}
+                      whileHover={project.id === 4 ? { scale: 1.1 } : {}}
+                    >
                       {tag}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
                 <div className="flex space-x-3">
-                  <a 
+                  <motion.a 
                     href={project.demoLink} 
                     className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <i className="fas fa-external-link-alt mr-1"></i> Live Demo
-                  </a>
-                  <a 
+                  </motion.a>
+                  <motion.a 
                     href={project.githubLink} 
                     className="text-dark-600 hover:text-dark-800 dark:text-dark-400 dark:hover:text-dark-200 transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <i className="fab fa-github mr-1"></i> GitHub
-                  </a>
+                  </motion.a>
                   {project.downloadLink && (
-                    <a 
+                    <motion.a 
                       href={project.downloadLink} 
                       className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
                       target="_blank"
                       rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <i className="fas fa-download mr-1"></i> Download
-                    </a>
+                    </motion.a>
                   )}
                 </div>
               </div>
