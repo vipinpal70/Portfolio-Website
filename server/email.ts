@@ -72,10 +72,10 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
   try {
     // Send email to the portfolio owner
     await transporter.sendMail(ownerMailOptions);
-    
+
     // Send confirmation email to the sender
     await transporter.sendMail(senderMailOptions);
-    
+
     console.log("Emails sent successfully");
   } catch (error) {
     console.error("Error sending emails:", error);

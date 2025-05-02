@@ -32,7 +32,7 @@ const HeroSection = () => {
     <section id="home" className="pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden radial-gradient">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col lg:flex-row items-center">
-          <motion.div 
+          <motion.div
             className="w-full lg:w-1/2 mb-12 lg:mb-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -45,7 +45,7 @@ const HeroSection = () => {
                 </div>
                 <span className="inline-block text-xl wave">👋</span>
               </div>
-              <motion.h1 
+              <motion.h1
                 className="text-4xl md:text-5xl lg:text-6xl font-bold font-sans text-dark-900 dark:text-white mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ const HeroSection = () => {
               >
                 Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-500">Vipin Pal</span>
               </motion.h1>
-              <motion.div 
+              <motion.div
                 className="text-xl md:text-2xl text-dark-700 dark:text-dark-300 font-medium mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ const HeroSection = () => {
               >
                 <span ref={typedElement}></span>
               </motion.div>
-              <motion.p 
+              <motion.p
                 className="text-lg text-dark-600 dark:text-dark-400 mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ const HeroSection = () => {
               >
                 Building scalable solutions & automating financial systems with expertise in Python and Full-Stack development.
               </motion.p>
-              <motion.div 
+              <motion.div
                 className="flex flex-wrap gap-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -87,7 +87,7 @@ const HeroSection = () => {
               </motion.div>
             </div>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="w-full lg:w-1/2 pl-0 lg:pl-12"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -105,26 +105,28 @@ const HeroSection = () => {
                   </div>
                   <div className="rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 p-4">
                     <pre className="font-code text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
-<span className="text-purple-600 dark:text-purple-400">class</span> <span className="text-yellow-600 dark:text-yellow-400">VipinPal</span>:
-    <span className="text-purple-600 dark:text-purple-400">def</span> <span className="text-blue-600 dark:text-blue-400">__init__</span>(<span className="text-orange-600 dark:text-orange-400">self</span>):
-        <span className="text-orange-600 dark:text-orange-400">self</span>.name = <span className="text-green-600 dark:text-green-400">"Vipin Pal"</span>
-        <span className="text-orange-600 dark:text-orange-400">self</span>.role = <span className="text-green-600 dark:text-green-400">"Python/Full-Stack Developer"</span>
-        <span className="text-orange-600 dark:text-orange-400">self</span>.skills = [<span className="text-green-600 dark:text-green-400">"Python"</span>, <span className="text-green-600 dark:text-green-400">"Flask"</span>, <span className="text-green-600 dark:text-green-400">"Django"</span>, <span className="text-green-600 dark:text-green-400">"React"</span>]
-        <span className="text-orange-600 dark:text-orange-400">self</span>.education = [<span className="text-green-600 dark:text-green-400">"MCA from VIT"</span>, <span className="text-green-600 dark:text-green-400">"BCA from DAV"</span>]
-    
-    <span className="text-purple-600 dark:text-purple-400">def</span> <span className="text-blue-600 dark:text-blue-400">say_hello</span>(<span className="text-orange-600 dark:text-orange-400">self</span>):
-        <span className="text-purple-600 dark:text-purple-400">return</span> <span className="text-green-600 dark:text-green-400">"Hello! I'm Vipin, a Python/Full-Stack Developer."</span>
+                      <span className="text-purple-600 dark:text-purple-400">class</span> <span className="text-yellow-600 dark:text-yellow-400">VipinPal</span>:
+                      <span className="text-purple-600 dark:text-purple-400">def</span> <span className="text-blue-600 dark:text-blue-400">__init__</span>(<span className="text-orange-600 dark:text-orange-400">self</span>):
+                      <span className="text-orange-600 dark:text-orange-400">self</span>.name = <span className="text-green-600 dark:text-green-400">"Vipin Pal"</span>
+                      <span className="text-orange-600 dark:text-orange-400">self</span>.role = <span className="text-green-600 dark:text-green-400">"Python/Full-Stack Developer"</span>
+                      <span className="text-orange-600 dark:text-orange-400">self</span>.skills = [<span className="text-green-600 dark:text-green-400">"Python"</span>, <span className="text-green-600 dark:text-green-400">"Flask"</span>, <span className="text-green-600 dark:text-green-400">"Django"</span>, <span className="text-green-600 dark:text-green-400">"React"</span>]
+                      <span className="text-orange-600 dark:text-orange-400">self</span>.education = [<span className="text-green-600 dark:text-green-400">"MCA from VIT"</span>, <span className="text-green-600 dark:text-green-400">"BCA from DAV"</span>]
 
-    <span className="text-purple-600 dark:text-purple-400">def</span> <span className="text-blue-600 dark:text-blue-400">get_contact</span>(<span className="text-orange-600 dark:text-orange-400">self</span>):
-        <span className="text-purple-600 dark:text-purple-400">return</span> {"{"}
-            <span className="text-green-600 dark:text-green-400">"email"</span>: <span className="text-green-600 dark:text-green-400">"vipinpal7060@gmail.com"</span>,
-            <span className="text-green-600 dark:text-green-400">"phone"</span>: <span className="text-green-600 dark:text-green-400">"+91 7060298070"</span>,
-            <span className="text-green-600 dark:text-green-400">"github"</span>: <span className="text-green-600 dark:text-green-400">"vipinpal70"</span>
-        {"}"}
+                      <span className="text-purple-600 dark:text-purple-400">def</span> <span className="text-blue-600 dark:text-blue-400">say_hello</span>(<span className="text-orange-600 dark:text-orange-400">self</span>):
+                      <span className="text-purple-600 dark:text-purple-400">return</span> <span className="text-green-600 dark:text-green-400">"Hello! I'm Vipin, a Python/Full-Stack Developer."</span>
 
-<span className="text-gray-600 dark:text-gray-400"># Initialize</span>
-vipin = VipinPal()
-<span className="text-purple-600 dark:text-purple-400">print</span>(vipin.say_hello())</pre>
+                      <span className="text-purple-600 dark:text-purple-400">def</span> <span className="text-blue-600 dark:text-blue-400">get_contact</span>(<span className="text-orange-600 dark:text-orange-400">self</span>):
+                      <span className="text-purple-600 dark:text-purple-400">return</span> {"{"}
+                      <span className="text-green-600 dark:text-green-400">"email"</span>: <span className="text-green-600 dark:text-green-400">"vipinpal.dev@gmail.com"</span>,
+                      <span className="text-green-600 dark:text-green-400">"phone"</span>: <span className="text-green-600 dark:text-green-400">"+91 7060298070"</span>,
+                      <span className="text-green-600 dark:text-green-400">"github"</span>: <span className="text-green-600 dark:text-green-400">"vipinpal70"</span>
+                      {"}"}
+
+                      <span className="text-gray-600 dark:text-gray-400"># Initialize</span>
+                      vipin = VipinPal()
+
+                      <span className="text-purple-600 dark:text-purple-400">print</span>(vipin.say_hello())</pre>
+
                   </div>
                 </div>
               </div>
@@ -133,7 +135,7 @@ vipin = VipinPal()
         </div>
 
         {/* Social Links */}
-        <motion.div 
+        <motion.div
           className="mt-12 lg:mt-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
