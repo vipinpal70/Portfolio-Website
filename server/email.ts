@@ -4,15 +4,16 @@ interface ContactFormData {
   name: string;
   email: string;
   subject: string;
+  phone: string;
   message: string;
 }
 
 export async function sendContactEmail(data: ContactFormData): Promise<void> {
   // Get email configuration from environment variables
-  const emailUser = process.env.EMAIL_USER || "vipinpal.dev@gmail.com";
-  const emailPass = process.env.EMAIL_PASS || "";
-  const emailHost = process.env.EMAIL_HOST || "smtp.gmail.com";
-  const emailPort = parseInt(process.env.EMAIL_PORT || "587");
+  const emailUser = process.env.SMTP_USER || "vipinpal.dev@gmail.com";
+  const emailPass = process.env.SMTP_PASS || "";
+  const emailHost = process.env.SMTP_HOST || "smtp.gmail.com";
+  const emailPort = parseInt(process.env.SMTP_PORT || "587");
 
   // Create transporter
   const transporter = nodemailer.createTransport({
@@ -35,6 +36,7 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
         <h2 style="color: #3b82f6; margin-bottom: 20px;">New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${data.name}</p>
         <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
         <p><strong>Subject:</strong> ${data.subject}</p>
         <p><strong>Message:</strong></p>
         <div style="background-color: #f9fafb; padding: 15px; border-radius: 5px; margin-top: 10px; margin-bottom: 20px;">
