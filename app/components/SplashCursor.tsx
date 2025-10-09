@@ -1,44 +1,59 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 
-interface WebGLExtensions {
-  halfFloatTexType: number;
-  formatRGBA: {
-    internalFormat: number;
-    format: number;
-  };
-  formatRG: {
-    internalFormat: number;
-    format: number;
-  };
-  formatR: {
-    internalFormat: number;
-    format: number;
-  };
-  supportLinearFiltering: boolean;
+// WebGL extension type definitions
+type OES_texture_float = {};
+interface OES_texture_half_float {
+  readonly HALF_FLOAT_OES: number;
 }
+type OES_texture_float_linear = {};
+type OES_texture_half_float_linear = {};
+type WEBGL_color_buffer_float = {};
+type EXT_color_buffer_float = {};
+type EXT_color_buffer_half_float = {};
+type EXT_float_blend = {};
+type EXT_frag_depth = {};
+type EXT_shader_texture_lod = {};
+type EXT_sRGB = {};
+type WEBGL_draw_buffers = {};
+type OES_standard_derivatives = {};
+type EXT_blend_minmax = {};
+type EXT_disjoint_timer_query = {};
+type WEBGL_compressed_texture_s3tc = {};
+type WEBGL_compressed_texture_pvrtc = {};
+type WEBGL_compressed_texture_etc = {};
+type WEBGL_compressed_texture_astc = {};
+
+type WebGLExtension = OES_texture_float | OES_texture_half_float | OES_texture_float_linear | 
+  OES_texture_half_float_linear | WEBGL_color_buffer_float | EXT_color_buffer_float | 
+  EXT_color_buffer_half_float | EXT_float_blend | EXT_frag_depth | EXT_shader_texture_lod | 
+  EXT_sRGB | WEBGL_draw_buffers | OES_standard_derivatives | EXT_blend_minmax | 
+  EXT_disjoint_timer_query | WEBGL_compressed_texture_s3tc | 
+  WEBGL_compressed_texture_pvrtc | WEBGL_compressed_texture_etc | 
+  WEBGL_compressed_texture_astc | null;
 
 declare global {
   interface WebGLRenderingContext {
-    getExtension(extensionName: 'OES_texture_float'): any;
-    getExtension(extensionName: 'OES_texture_half_float'): any;
-    getExtension(extensionName: 'OES_texture_float_linear'): any;
-    getExtension(extensionName: 'OES_texture_half_float_linear'): any;
-    getExtension(extensionName: 'WEBGL_color_buffer_float'): any;
-    getExtension(extensionName: 'EXT_color_buffer_float'): any;
-    getExtension(extensionName: 'EXT_color_buffer_half_float'): any;
-    getExtension(extensionName: 'EXT_float_blend'): any;
-    getExtension(extensionName: 'EXT_frag_depth'): any;
-    getExtension(extensionName: 'EXT_shader_texture_lod'): any;
-    getExtension(extensionName: 'EXT_sRGB'): any;
-    getExtension(extensionName: 'WEBGL_draw_buffers'): any;
-    getExtension(extensionName: 'OES_standard_derivatives'): any;
-    getExtension(extensionName: 'EXT_blend_minmax'): any;
-    getExtension(extensionName: 'EXT_disjoint_timer_query'): any;
-    getExtension(extensionName: 'WEBGL_compressed_texture_s3tc'): any;
-    getExtension(extensionName: 'WEBGL_compressed_texture_pvrtc'): any;
-    getExtension(extensionName: 'WEBGL_compressed_texture_etc'): any;
-    getExtension(extensionName: 'WEBGL_compressed_texture_astc'): any;
+    getExtension(extensionName: 'OES_texture_float'): OES_texture_float | null;
+    getExtension(extensionName: 'OES_texture_half_float'): OES_texture_half_float | null;
+    getExtension(extensionName: 'OES_texture_float_linear'): OES_texture_float_linear | null;
+    getExtension(extensionName: 'OES_texture_half_float_linear'): OES_texture_half_float_linear | null;
+    getExtension(extensionName: 'WEBGL_color_buffer_float'): WEBGL_color_buffer_float | null;
+    getExtension(extensionName: 'EXT_color_buffer_float'): EXT_color_buffer_float | null;
+    getExtension(extensionName: 'EXT_color_buffer_half_float'): EXT_color_buffer_half_float | null;
+    getExtension(extensionName: 'EXT_float_blend'): EXT_float_blend | null;
+    getExtension(extensionName: 'EXT_frag_depth'): EXT_frag_depth | null;
+    getExtension(extensionName: 'EXT_shader_texture_lod'): EXT_shader_texture_lod | null;
+    getExtension(extensionName: 'EXT_sRGB'): EXT_sRGB | null;
+    getExtension(extensionName: 'WEBGL_draw_buffers'): WEBGL_draw_buffers | null;
+    getExtension(extensionName: 'OES_standard_derivatives'): OES_standard_derivatives | null;
+    getExtension(extensionName: 'EXT_blend_minmax'): EXT_blend_minmax | null;
+    getExtension(extensionName: 'EXT_disjoint_timer_query'): EXT_disjoint_timer_query | null;
+    getExtension(extensionName: 'WEBGL_compressed_texture_s3tc'): WEBGL_compressed_texture_s3tc | null;
+    getExtension(extensionName: 'WEBGL_compressed_texture_pvrtc'): WEBGL_compressed_texture_pvrtc | null;
+    getExtension(extensionName: 'WEBGL_compressed_texture_etc'): WEBGL_compressed_texture_etc | null;
+    getExtension(extensionName: 'WEBGL_compressed_texture_astc'): WEBGL_compressed_texture_astc | null;
+    getExtension(extensionName: string): WebGLExtension;
   }
 }
 
