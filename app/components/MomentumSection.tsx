@@ -1,0 +1,658 @@
+"use client";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+
+export default function MomentumSection() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [minute, setMinute] = useState<number>(0);
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+    
+    const updateMinute = (): void => {
+      const mn = new Date().getMinutes();
+      setMinute(mn);
+      console.log(mn);
+    };
+    
+    updateMinute();
+    const interval = setInterval(updateMinute, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!canvasRef.current || !containerRef.current) return;
+
+    // Three.js Scene Setup
+    const scene = new THREE.Scene();
+    const width = containerRef.current.offsetWidth;
+    const height = containerRef.current.offsetHeight;
+    
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      width / height,
+      0.1,
+      1000
+    );
+    
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef.current,
+      alpha: true,
+      antialias: true,
+    });
+
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    camera.position.z = 5;
+
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 800;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 10;
+    }
+
+    particlesGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(posArray, 3)
+    );
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.02,
+      color: 0x6366f1,
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const particlesMesh = new THREE.Points(
+      particlesGeometry,
+      particlesMaterial
+    );
+    scene.add(particlesMesh);
+
+    // Animation
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      particlesMesh.rotation.y += 0.001;
+      particlesMesh.rotation.x += 0.0005;
+
+      particlesMesh.rotation.y += mouseX * 0.0005;
+      particlesMesh.rotation.x += mouseY * 0.0005;
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // Handle resize
+    const handleResize = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      
+      const newWidth = container.offsetWidth;
+      const newHeight = container.offsetHeight;
+      
+      camera.aspect = newWidth / newHeight;
+      renderer.setSize(newWidth, newHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Store references for cleanup
+    const currentRenderer: THREE.WebGLRenderer = renderer;
+    const currentParticlesGeometry: THREE.BufferGeometry = particlesGeometry;
+    const currentParticlesMaterial: THREE.PointsMaterial = particlesMaterial;
+    
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+      currentRenderer.dispose();
+      currentParticlesGeometry.dispose();
+      currentParticlesMaterial.dispose();
+    };
+  }, []);
+
+  const opportunities = [
+    {
+      text: "Automate the tasks",
+      subtext: "that's stealing your time and focus",
+    },
+    {
+      text: "Build the system",
+      subtext: "that your competitors wish they had",
+    },
+    {
+      text: "Turn data into decisions",
+      subtext: "that happen in seconds, not hours",
+    },
+    {
+      text: "Create something remarkable",
+      subtext: "that positions you miles ahead",
+    },
+  ];
+
+  if (typeof window === "undefined") return null;
+
+  if (!hasMounted) {
+    // Render static fallback (optional) or nothing
+    return null;
+  }
+
+  return (
+    <div id="momentum">
+      {minute % 3 === 0 && (
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-gray-950 to-slate-950">
+          {/* Three.js Background */}
+          <div ref={containerRef} className="absolute inset-0 z-0">
+            <canvas ref={canvasRef} className="w-full h-full" />
+          </div>
+
+          {/* Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-indigo-800/20 via-transparent to-purple-800/20 z-10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.1),transparent_50%)] z-10" />
+
+          {/* Content */}
+          <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            {/* Main Heading */}
+            <div className="text-center mb-16 space-y-6">
+              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in">
+                We&apos;re Not Late.{" "}
+                <span className="bg-gradient-to-r from-blue-800 via-pink-800 to-indigo-950 bg-clip-text text-transparent animate-gradient">
+                  Let&apos;s Build.
+                </span>
+              </h2>
+
+              <p className="text-xl sm:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed animate-fade-in-delay">
+                The best projects aren&apos;t born from perfect timing—they&apos;re born
+                from{" "}
+                <span className="text-red-400 font-semibold">
+                  decisive action.
+                </span>
+                Right now, while others hesitate, you have the opportunity to:
+              </p>
+            </div>
+
+            {/* Opportunities Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+              {opportunities.map((item, index) => (
+                <div
+                  key={index}
+                  className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-indigo-950/50 transition-all duration-500 hover:scale-105 hover:bg-white/10 animate-slide-up"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/20 to-purple-950/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="relative z-10">
+                    <div className="flex items-start space-x-4">
+                      <div className="flex-shrink-0 w-2 h-2 mt-2 bg-pink-800 rounded-full group-hover:animate-pulse" />
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+                          {item.text}
+                        </h3>
+                        <p className="text-slate-400 text-lg group-hover:text-slate-300 transition-colors">
+                          {item.subtext}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center space-y-8 animate-fade-in-late">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-950 to-purple-950 blur-xl opacity-50 animate-pulse-slow" />
+                <p className="relative text-2xl sm:text-3xl font-bold text-white px-8 py-4">
+                  The question isn&apos;t whether you should build it.
+                  <br />
+                  <span className="text-indigo-600">
+                    The question is: why wait another day?
+                  </span>
+                </p>
+              </div>
+
+              <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Every moment you delay is a moment your competition gains
+                ground. But here&apos;s the truth:{" "}
+                <span className="text-white font-semibold">
+                  you found this page for a reason.
+                </span>{" "}
+                That reason is about to become your{" "}
+                <span className="bg-gradient-to-r from-purple-600 to-orange-700 bg-clip-text text-transparent font-bold">
+                  competitive advantage.
+                </span>
+              </p>
+
+              <Link href="#connect" className="group relative px-10 py-5 bg-gradient-to-r from-indigo-950 to-purple-950 text-white text-xl font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-indigo-500/50">
+                <span className="relative z-10">Let&apos;s Start Building</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-950 to-pink-950 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </div>
+          </div>
+
+          <style jsx>{`
+            @keyframes fade-in {
+              from {
+                opacity: 0;
+                transform: translateY(20px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+
+            @keyframes slide-up {
+              from {
+                opacity: 0;
+                transform: translateY(40px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+
+            @keyframes gradient {
+              0%,
+              100% {
+                background-position: 0% 50%;
+              }
+              50% {
+                background-position: 100% 50%;
+              }
+            }
+
+            .animate-fade-in {
+              animation: fade-in 1s ease-out forwards;
+            }
+
+            .animate-fade-in-delay {
+              opacity: 0;
+              animation: fade-in 1s ease-out 0.3s forwards;
+            }
+
+            .animate-fade-in-late {
+              opacity: 0;
+              animation: fade-in 1s ease-out 0.8s forwards;
+            }
+
+            .animate-slide-up {
+              opacity: 0;
+              animation: slide-up 0.8s ease-out forwards;
+            }
+
+            .animate-gradient {
+              background-size: 200% 200%;
+              animation: gradient 3s ease infinite;
+            }
+
+            .animate-pulse-slow {
+              animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+
+            @keyframes pulse {
+              0%,
+              100% {
+                opacity: 0.5;
+              }
+              50% {
+                opacity: 0.8;
+              }
+            }
+          `}</style>
+        </section>
+      )}
+
+      {minute % 3 === 1 && (
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950">
+          {/* Three.js Background */}
+          <div ref={containerRef} className="absolute inset-0 z-0">
+            <canvas ref={canvasRef} className="w-full h-full" />
+          </div>
+
+          {/* Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-indigo-700/20 via-transparent to-purple-700/20 z-10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.1),transparent_50%)] z-10" />
+
+          {/* Content */}
+          <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            {/* Main Heading */}
+            <div className="text-center mb-16 space-y-6">
+              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in">
+                We&apos;re Not Late.{" "}
+                <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
+                  Let&apos;s Build.
+                </span>
+              </h2>
+
+              <p className="text-xl sm:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed animate-fade-in-delay">
+                The best projects aren&apos;t born from perfect timing—they&apos;re born
+                from{" "}
+                <span className="text-red-400 font-semibold">
+                  decisive action
+                </span>
+                . Right now, while others hesitate, you have the opportunity to:
+              </p>
+            </div>
+
+            {/* Opportunities Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+              {opportunities.map((item, index) => (
+                <div
+                  key={index}
+                  className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-indigo-500/50 transition-all duration-500 hover:scale-105 hover:bg-white/10 animate-slide-up"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-700/20 to-purple-700/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="relative z-10">
+                    <div className="flex items-start space-x-4">
+                      <div className="flex-shrink-0 w-2 h-2 mt-2 bg-indigo-700 rounded-full group-hover:animate-pulse" />
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+                          {item.text}
+                        </h3>
+                        <p className="text-slate-400 text-lg group-hover:text-slate-300 transition-colors">
+                          {item.subtext}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center space-y-8 animate-fade-in-late">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-950 to-purple-950 blur-xl opacity-50 animate-pulse-slow " />
+                <p className="relative text-2xl sm:text-3xl font-bold text-white px-8 py-4">
+                  The question isn&apos;t whether you should build it.
+                  <br />
+                  <span className="text-indigo-600">
+                    The question is: why wait another day?
+                  </span>
+                </p>
+              </div>
+
+              <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Every moment you delay is a moment your competition gains
+                ground. But here&apos;s the truth:{" "}
+                <span className="text-white font-semibold">
+                  you found this page for a reason.
+                </span>{" "}
+                That reason is about to become your{" "}
+                <span className="bg-gradient-to-r from-blue-600 via-pink-600 to-purple-600 bg-clip-text text-transparent font-bold">
+                  competitive advantage.
+                </span>
+              </p>
+
+              <Link href="#connect" className="group relative px-10 py-5 bg-gradient-to-r from-indigo-800 to-purple-800 text-white text-xl font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-indigo-500/50">
+                <span className="relative z-10">Let&apos;s Start Building</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-800 to-pink-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </div>
+          </div>
+
+          <style jsx>{`
+            @keyframes fade-in {
+              from {
+                opacity: 0;
+                transform: translateY(20px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+
+            @keyframes slide-up {
+              from {
+                opacity: 0;
+                transform: translateY(40px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+
+            @keyframes gradient {
+              0%,
+              100% {
+                background-position: 0% 50%;
+              }
+              50% {
+                background-position: 100% 50%;
+              }
+            }
+
+            .animate-fade-in {
+              animation: fade-in 1s ease-out forwards;
+            }
+
+            .animate-fade-in-delay {
+              opacity: 0;
+              animation: fade-in 1s ease-out 0.3s forwards;
+            }
+
+            .animate-fade-in-late {
+              opacity: 0;
+              animation: fade-in 1s ease-out 0.8s forwards;
+            }
+
+            .animate-slide-up {
+              opacity: 0;
+              animation: slide-up 0.8s ease-out forwards;
+            }
+
+            .animate-gradient {
+              background-size: 200% 200%;
+              animation: gradient 3s ease infinite;
+            }
+
+            .animate-pulse-slow {
+              animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+
+            @keyframes pulse {
+              0%,
+              100% {
+                opacity: 0.5;
+              }
+              50% {
+                opacity: 0.8;
+              }
+            }
+          `}</style>
+        </section>
+      )}
+
+      {minute % 3 === 2 && (
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-zinc-900 to-black">
+          {/* Three.js Background */}
+          <div ref={containerRef} className="absolute inset-0 z-0">
+            <canvas ref={canvasRef} className="w-full h-full" />
+          </div>
+
+          {/* Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-amber-600/10 via-transparent to-emerald-600/10 z-10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.08),transparent_50%)] z-10" />
+
+          {/* Content */}
+          <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            {/* Main Heading */}
+            <div className="text-center mb-16 space-y-6">
+              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in">
+                We&apos;re Not Late.{" "}
+                <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-300 bg-clip-text text-transparent animate-gradient">
+                  Let&apos;s Build.
+                </span>
+              </h2>
+
+              <p className="text-xl sm:text-2xl text-gray-400 max-w-4xl mx-auto leading-relaxed animate-fade-in-delay">
+                The best projects aren&apos;t born from perfect timing—they&apos;re born
+                from{" "}
+                <span className="text-amber-400 font-semibold">
+                  decisive action.
+                </span>
+                Right now, while others hesitate, you have the opportunity to:
+              </p>
+            </div>
+
+            {/* Opportunities Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+              {opportunities.map((item, index) => (
+                <div
+                  key={index}
+                  className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-gray-700/50 hover:border-amber-500/50 transition-all duration-500 hover:scale-105 hover:bg-white/10 animate-slide-up"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-600/10 to-emerald-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="relative z-10">
+                    <div className="flex items-start space-x-4">
+                      <div className="flex-shrink-0 w-2 h-2 mt-2 bg-amber-500 rounded-full group-hover:animate-pulse" />
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
+                          {item.text}
+                        </h3>
+                        <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
+                          {item.subtext}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center space-y-8 animate-fade-in-late">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-900 to-orange-900 blur-xl opacity-50 animate-pulse-slow" />
+                <p className="relative text-2xl sm:text-3xl font-bold text-white px-8 py-4">
+                  The question isn&apos;t whether you should build it.
+                  <br />
+                  <span className="text-amber-400">
+                    The question is: why wait another day?
+                  </span>
+                </p>
+              </div>
+
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                Every moment you delay is a moment your competition gains
+                ground. But here&apos;s the truth:{" "}
+                <span className="text-white font-semibold">
+                  you found this page for a reason.
+                </span>{" "}
+                That reason is about to become your{" "}
+                <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-emerald-400 bg-clip-text text-transparent font-bold">
+                  competitive advantage.
+                </span>
+              </p>
+
+              <Link href="#connect" className="group relative px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-500 text-black text-xl font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-amber-500/50">
+                <span className="relative z-10"> Let&apos;s Start Building</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </div>
+          </div>
+
+          <style jsx>
+            {`
+              @keyframes fade-in {
+                from {
+                  opacity: 0;
+                  transform: translateY(20px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+
+              @keyframes slide-up {
+                from {
+                  opacity: 0;
+                  transform: translateY(40px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+
+              @keyframes gradient {
+                0%,
+                100% {
+                  background-position: 0% 50%;
+                }
+                50% {
+                  background-position: 100% 50%;
+                }
+              }
+
+              .animate-fade-in {
+                animation: fade-in 1s ease-out forwards;
+              }
+
+              .animate-fade-in-delay {
+                opacity: 0;
+                animation: fade-in 1s ease-out 0.3s forwards;
+              }
+
+              .animate-fade-in-late {
+                opacity: 0;
+                animation: fade-in 1s ease-out 0.8s forwards;
+              }
+
+              .animate-slide-up {
+                opacity: 0;
+                animation: slide-up 0.8s ease-out forwards;
+              }
+
+              .animate-gradient {
+                background-size: 200% 200%;
+                animation: gradient 3s ease infinite;
+              }
+
+              .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+              }
+
+              @keyframes pulse {
+                0%,
+                100% {
+                  opacity: 0.5;
+                }
+                50% {
+                  opacity: 0.8;
+                }
+              }
+            `}
+          </style>
+        </section>
+      )}
+    </div>
+  );
+}
