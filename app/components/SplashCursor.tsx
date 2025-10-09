@@ -111,7 +111,6 @@ interface WEBGL_compressed_texture_astc {
 
 // Using WebGLQuery as the base type for timer queries
 type WebGLTimerQueryEXT = WebGLQuery;
-  WEBGL_compressed_texture_astc | null;
 
 declare global {
   interface WebGLRenderingContext {
