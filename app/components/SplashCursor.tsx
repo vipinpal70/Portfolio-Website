@@ -2,19 +2,15 @@
 import React, { useEffect, useRef } from "react";
 
 // WebGL extension type definitions
-// Using empty interfaces as they are just markers for WebGL extensions
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface OES_texture_float {}
+type OES_texture_float = object;
 
 interface OES_texture_half_float {
   readonly HALF_FLOAT_OES: number;
 }
 
-// These are marker interfaces for WebGL extensions
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface OES_texture_float_linear {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface OES_texture_half_float_linear {}
+// These are marker types for WebGL extensions
+type OES_texture_float_linear = object;
+type OES_texture_half_float_linear = object;
 interface WEBGL_color_buffer_float {
   readonly RGBA32F_EXT: number;
   readonly RGB32F_EXT: number;
@@ -34,13 +30,10 @@ interface EXT_color_buffer_half_float {
   readonly UNSIGNED_NORMALIZED_EXT: number;
 }
 
-// These are marker interfaces for WebGL extensions
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EXT_float_blend {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EXT_frag_depth {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EXT_shader_texture_lod {}
+// These are marker types for WebGL extensions
+type EXT_float_blend = object;
+type EXT_frag_depth = object;
+type EXT_shader_texture_lod = object;
 
 interface EXT_sRGB {
   readonly FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT: number;
@@ -112,20 +105,12 @@ interface WEBGL_compressed_texture_etc {
 
 interface WEBGL_compressed_texture_astc {
   getSupportedProfiles: () => string[];
-  readonly COMPRESSED_RGBA_ASTC_4x4_KHR: number;
   readonly COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR: number;
   // Add more ASTC formats as needed
 }
 
 // Using WebGLQuery as the base type for timer queries
 type WebGLTimerQueryEXT = WebGLQuery;
-
-type WebGLExtension = OES_texture_float | OES_texture_half_float | OES_texture_float_linear | 
-  OES_texture_half_float_linear | WEBGL_color_buffer_float | EXT_color_buffer_float | 
-  EXT_color_buffer_half_float | EXT_float_blend | EXT_frag_depth | EXT_shader_texture_lod | 
-  EXT_sRGB | WEBGL_draw_buffers | OES_standard_derivatives | EXT_blend_minmax | 
-  EXT_disjoint_timer_query | WEBGL_compressed_texture_s3tc | 
-  WEBGL_compressed_texture_pvrtc | WEBGL_compressed_texture_etc | 
   WEBGL_compressed_texture_astc | null;
 
 declare global {
@@ -149,7 +134,7 @@ declare global {
     getExtension(extensionName: 'WEBGL_compressed_texture_pvrtc'): WEBGL_compressed_texture_pvrtc | null;
     getExtension(extensionName: 'WEBGL_compressed_texture_etc'): WEBGL_compressed_texture_etc | null;
     getExtension(extensionName: 'WEBGL_compressed_texture_astc'): WEBGL_compressed_texture_astc | null;
-    getExtension(extensionName: string): WebGLExtension;
+    getExtension(extensionName: string): unknown;
   }
 }
 
