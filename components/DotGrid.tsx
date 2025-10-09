@@ -5,15 +5,15 @@ import { InertiaPlugin } from 'gsap/InertiaPlugin';
 
 gsap.registerPlugin(InertiaPlugin);
 
-const throttle = (func: (...args: unknown[]) => void, limit: number) => {
+const throttle = <T extends unknown[]>(func: (...args: T) => void, limit: number) => {
   let lastCall = 0;
-  return function (this: unknown, ...args: unknown[]) {
+  return function (this: unknown, ...args: T) {
     const now = performance.now();
     if (now - lastCall >= limit) {
       lastCall = now;
       func.apply(this, args);
     }
-  };
+  } as (...args: T) => void;
 };
 
 interface Dot {
