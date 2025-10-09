@@ -2,27 +2,114 @@
 import React, { useEffect, useRef } from "react";
 
 // WebGL extension type definitions
-type OES_texture_float = {};
+// Using empty interfaces as they are just markers for WebGL extensions
+interface OES_texture_float {}
+
 interface OES_texture_half_float {
   readonly HALF_FLOAT_OES: number;
 }
-type OES_texture_float_linear = {};
-type OES_texture_half_float_linear = {};
-type WEBGL_color_buffer_float = {};
-type EXT_color_buffer_float = {};
-type EXT_color_buffer_half_float = {};
-type EXT_float_blend = {};
-type EXT_frag_depth = {};
-type EXT_shader_texture_lod = {};
-type EXT_sRGB = {};
-type WEBGL_draw_buffers = {};
-type OES_standard_derivatives = {};
-type EXT_blend_minmax = {};
-type EXT_disjoint_timer_query = {};
-type WEBGL_compressed_texture_s3tc = {};
-type WEBGL_compressed_texture_pvrtc = {};
-type WEBGL_compressed_texture_etc = {};
-type WEBGL_compressed_texture_astc = {};
+
+interface OES_texture_float_linear {}
+interface OES_texture_half_float_linear {}
+interface WEBGL_color_buffer_float {
+  readonly RGBA32F_EXT: number;
+  readonly RGB32F_EXT: number;
+  readonly FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT: number;
+  readonly UNSIGNED_NORMALIZED_EXT: number;
+}
+
+interface EXT_color_buffer_float {
+  readonly FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT: number;
+  readonly UNSIGNED_NORMALIZED_EXT: number;
+}
+
+interface EXT_color_buffer_half_float {
+  readonly FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT: number;
+  readonly RGB16F_EXT: number;
+  readonly RGBA16F_EXT: number;
+  readonly UNSIGNED_NORMALIZED_EXT: number;
+}
+
+interface EXT_float_blend {}
+interface EXT_frag_depth {}
+interface EXT_shader_texture_lod {}
+
+interface EXT_sRGB {
+  readonly FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT: number;
+  readonly SRGB_EXT: number;
+  readonly SRGB_ALPHA_EXT: number;
+  readonly SRGB8_ALPHA8_EXT: number;
+}
+
+interface WEBGL_draw_buffers {
+  drawBuffersWEBGL: (buffers: number[]) => void;
+  readonly COLOR_ATTACHMENT0_WEBGL: number;
+  readonly COLOR_ATTACHMENT1_WEBGL: number;
+  readonly COLOR_ATTACHMENT2_WEBGL: number;
+  readonly COLOR_ATTACHMENT3_WEBGL: number;
+  // Add more as needed
+}
+
+interface OES_standard_derivatives {
+  readonly FRAGMENT_SHADER_DERIVATIVE_HINT_OES: number;
+}
+
+interface EXT_blend_minmax {
+  readonly MIN_EXT: number;
+  readonly MAX_EXT: number;
+}
+
+interface EXT_disjoint_timer_query {
+  createQueryEXT: () => WebGLTimerQueryEXT | null;
+  deleteQueryEXT: (query: WebGLTimerQueryEXT | null) => void;
+  isQueryEXT: (query: WebGLTimerQueryEXT | null) => boolean;
+  beginQueryEXT: (target: number, query: WebGLTimerQueryEXT) => void;
+  endQueryEXT: (target: number) => void;
+  getQueryObjectEXT: (query: WebGLTimerQueryEXT, target: number) => any;
+  QUERY_COUNTER_BITS_EXT: number;
+  CURRENT_QUERY_EXT: number;
+  QUERY_RESULT_EXT: number;
+  QUERY_RESULT_AVAILABLE_EXT: number;
+  TIME_ELAPSED_EXT: number;
+  TIMESTAMP_EXT: number;
+  GPU_DISJOINT_EXT: number;
+}
+
+interface WEBGL_compressed_texture_s3tc {
+  readonly COMPRESSED_RGB_S3TC_DXT1_EXT: number;
+  readonly COMPRESSED_RGBA_S3TC_DXT1_EXT: number;
+  readonly COMPRESSED_RGBA_S3TC_DXT3_EXT: number;
+  readonly COMPRESSED_RGBA_S3TC_DXT5_EXT: number;
+}
+
+interface WEBGL_compressed_texture_pvrtc {
+  readonly COMPRESSED_RGB_PVRTC_4BPPV1_IMG: number;
+  readonly COMPRESSED_RGBA_PVRTC_4BPPV1_IMG: number;
+  readonly COMPRESSED_RGB_PVRTC_2BPPV1_IMG: number;
+  readonly COMPRESSED_RGBA_PVRTC_2BPPV1_IMG: number;
+}
+
+interface WEBGL_compressed_texture_etc {
+  readonly COMPRESSED_R11_EAC: number;
+  readonly COMPRESSED_SIGNED_R11_EAC: number;
+  readonly COMPRESSED_RG11_EAC: number;
+  readonly COMPRESSED_SIGNED_RG11_EAC: number;
+  readonly COMPRESSED_RGB8_ETC2: number;
+  readonly COMPRESSED_SRGB8_ETC2: number;
+  readonly COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
+  readonly COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
+  readonly COMPRESSED_RGBA8_ETC2_EAC: number;
+  readonly COMPRESSED_SRGB8_ALPHA8_ETC2_EAC: number;
+}
+
+interface WEBGL_compressed_texture_astc {
+  getSupportedProfiles: () => string[];
+  readonly COMPRESSED_RGBA_ASTC_4x4_KHR: number;
+  readonly COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR: number;
+  // Add more ASTC formats as needed
+}
+
+type WebGLTimerQueryEXT = any; // This is a placeholder; use a more specific type if available
 
 type WebGLExtension = OES_texture_float | OES_texture_half_float | OES_texture_float_linear | 
   OES_texture_half_float_linear | WEBGL_color_buffer_float | EXT_color_buffer_float | 
