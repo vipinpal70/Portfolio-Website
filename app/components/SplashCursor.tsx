@@ -1,6 +1,47 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 
+interface WebGLExtensions {
+  halfFloatTexType: number;
+  formatRGBA: {
+    internalFormat: number;
+    format: number;
+  };
+  formatRG: {
+    internalFormat: number;
+    format: number;
+  };
+  formatR: {
+    internalFormat: number;
+    format: number;
+  };
+  supportLinearFiltering: boolean;
+}
+
+declare global {
+  interface WebGLRenderingContext {
+    getExtension(extensionName: 'OES_texture_float'): any;
+    getExtension(extensionName: 'OES_texture_half_float'): any;
+    getExtension(extensionName: 'OES_texture_float_linear'): any;
+    getExtension(extensionName: 'OES_texture_half_float_linear'): any;
+    getExtension(extensionName: 'WEBGL_color_buffer_float'): any;
+    getExtension(extensionName: 'EXT_color_buffer_float'): any;
+    getExtension(extensionName: 'EXT_color_buffer_half_float'): any;
+    getExtension(extensionName: 'EXT_float_blend'): any;
+    getExtension(extensionName: 'EXT_frag_depth'): any;
+    getExtension(extensionName: 'EXT_shader_texture_lod'): any;
+    getExtension(extensionName: 'EXT_sRGB'): any;
+    getExtension(extensionName: 'WEBGL_draw_buffers'): any;
+    getExtension(extensionName: 'OES_standard_derivatives'): any;
+    getExtension(extensionName: 'EXT_blend_minmax'): any;
+    getExtension(extensionName: 'EXT_disjoint_timer_query'): any;
+    getExtension(extensionName: 'WEBGL_compressed_texture_s3tc'): any;
+    getExtension(extensionName: 'WEBGL_compressed_texture_pvrtc'): any;
+    getExtension(extensionName: 'WEBGL_compressed_texture_etc'): any;
+    getExtension(extensionName: 'WEBGL_compressed_texture_astc'): any;
+  }
+}
+
 interface ColorRGB {
   r: number;
   g: number;
@@ -887,11 +928,29 @@ export default function SplashCursor({
       const simRes = getResolution(config.SIM_RESOLUTION!);
       const dyeRes = getResolution(config.DYE_RESOLUTION!);
 
-      const texType = ext.halfFloatTexType;
-      const rgba = ext.formatRGBA;
-      const rg = ext.formatRG;
-      const r = ext.formatR;
-      const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
+      // Type assertion for the ext object
+      const extTyped = ext as {
+        halfFloatTexType: number;
+        formatRGBA: {
+          internalFormat: number;
+          format: number;
+        };
+        formatRG: {
+          internalFormat: number;
+          format: number;
+        };
+        formatR: {
+          internalFormat: number;
+          format: number;
+        };
+        supportLinearFiltering: boolean;
+      };
+      
+      const texType = extTyped.halfFloatTexType;
+      const rgba = extTyped.formatRGBA;
+      const rg = extTyped.formatRG;
+      const r = extTyped.formatR;
+      const filtering = extTyped.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
       gl.disable(gl.BLEND);
 
       if (!dye) {
