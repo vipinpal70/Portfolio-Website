@@ -3,13 +3,17 @@ import React, { useEffect, useRef } from "react";
 
 // WebGL extension type definitions
 // Using empty interfaces as they are just markers for WebGL extensions
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OES_texture_float {}
 
 interface OES_texture_half_float {
   readonly HALF_FLOAT_OES: number;
 }
 
+// These are marker interfaces for WebGL extensions
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OES_texture_float_linear {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OES_texture_half_float_linear {}
 interface WEBGL_color_buffer_float {
   readonly RGBA32F_EXT: number;
@@ -30,8 +34,12 @@ interface EXT_color_buffer_half_float {
   readonly UNSIGNED_NORMALIZED_EXT: number;
 }
 
+// These are marker interfaces for WebGL extensions
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EXT_float_blend {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EXT_frag_depth {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EXT_shader_texture_lod {}
 
 interface EXT_sRGB {
@@ -65,7 +73,7 @@ interface EXT_disjoint_timer_query {
   isQueryEXT: (query: WebGLTimerQueryEXT | null) => boolean;
   beginQueryEXT: (target: number, query: WebGLTimerQueryEXT) => void;
   endQueryEXT: (target: number) => void;
-  getQueryObjectEXT: (query: WebGLTimerQueryEXT, target: number) => any;
+  getQueryObjectEXT: (query: WebGLTimerQueryEXT, target: number) => number | boolean | null;
   QUERY_COUNTER_BITS_EXT: number;
   CURRENT_QUERY_EXT: number;
   QUERY_RESULT_EXT: number;
@@ -109,7 +117,8 @@ interface WEBGL_compressed_texture_astc {
   // Add more ASTC formats as needed
 }
 
-type WebGLTimerQueryEXT = any; // This is a placeholder; use a more specific type if available
+// Using WebGLQuery as the base type for timer queries
+type WebGLTimerQueryEXT = WebGLQuery;
 
 type WebGLExtension = OES_texture_float | OES_texture_half_float | OES_texture_float_linear | 
   OES_texture_half_float_linear | WEBGL_color_buffer_float | EXT_color_buffer_float | 

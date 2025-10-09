@@ -8,6 +8,7 @@ export default function SolutionsSection() {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    const currentRef = sectionRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -17,13 +18,13 @@ export default function SolutionsSection() {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
@@ -71,15 +72,16 @@ export default function SolutionsSection() {
     },
   ];
 
-  const getGlowColor = (color: "indigo" | "purple" | "pink" | "orange") => {
-    const glowMap = {
-      indigo: "shadow-indigo-500/50",
-      purple: "shadow-purple-500/50",
-      pink: "shadow-pink-500/50",
-      orange: "shadow-orange-500/50",
-    };
-    return glowMap[color];
-  };
+  // This function is no longer used but kept for reference
+  // const getGlowColor = (color: "indigo" | "purple" | "pink" | "orange") => {
+  //   const glowMap = {
+  //     indigo: "shadow-indigo-500/50",
+  //     purple: "shadow-purple-500/50",
+  //     pink: "shadow-pink-500/50",
+  //     orange: "shadow-orange-500/50",
+  //   };
+  //   return glowMap[color];
+  // };
 
   return (
     <section
